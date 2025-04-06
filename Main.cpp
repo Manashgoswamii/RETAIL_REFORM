@@ -30,10 +30,10 @@ void delay(int timeMs){
     }
 }    
 
-void animatedPrint(const string& text, int delayMs=20) {
+void animatedPrint(const string& text, int delayMs=30) {
     for (char ch : text) {
         cout << ch << flush;
-        delay(delayMs);
+        Sleep(delayMs);
      
     }
 }
