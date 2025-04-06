@@ -810,14 +810,13 @@ int main() {
                 
                 system("cls");
 
-                cout << CYAN << BOLD<< "🎉🎉 Congratulations,you are successfully logged in !" << RESET << endl;
-
+                
                 //After Login
                 bool innerRunning1 = true;
                 if (RegisteredUser::loginUser(userId, password)) {
-                  
+                    cout << CYAN << BOLD<< "🎉🎉 Congratulations,you are successfully logged in !" << RESET << endl;
                     while(innerRunning1){ 
-                    
+                      
                         buyerMenu();
                         int buyerChoice;
                         cin >> buyerChoice;
@@ -830,7 +829,7 @@ int main() {
                             cout << GREEN << "✅ Location set to: " << userLocation << RESET << "\n";
                         
                             Booking::  searchAndBookProduct(userId,userLocation);
-                            system("cls");
+                            
                         }
                         else if (buyerChoice == 2) { // View Past Bookings
                             vector<Booking> bookings = Booking::readBookingsFromFile();
@@ -1180,6 +1179,12 @@ int main() {
              }
              
              case 3:{
+                cout << YELLOW << "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" << RESET;
+                cout << MAGENTA << BOLD << "🙏 Thank you for using our System!\n" << RESET;
+                cout << CYAN << "We hope you had a smooth and productive experience.\n";
+                cout << "Don't forget to come back for managing your product Search or Business! 😊\n" << RESET;
+                cout << YELLOW << "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n" << RESET;
+                delay(1000);
                 outerRunning=false;
              } 
 
