@@ -582,7 +582,7 @@ class Booking {
                     // b.generateBookingReceipt(booking, user, shop);
                     animatedPrint(RED "\n⚠️ Booking will get cancelled after 24 hour! \n ");
                     delay(3500);
-                    system("cls");
+                    
 
                 } catch (const runtime_error& e) {
                     animatedPrint(RED "⚠️  Error generating receipt: " + string(e.what()) + "\n" RESET);
