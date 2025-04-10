@@ -979,10 +979,13 @@ int main() {
                     }
                     
                     bool shopRunning = true;
+                    cout << GREEN << "🎉🎉Logged in successfully!\n\n"  << RESET;
+                    delay(500);
+                    system("cls");
                     while (shopRunning) {
-                        system("cls");
-                        cout << GREEN << "🎉🎉Logged in successfully!\n\n"  << RESET;
-                        shopOwnerMenu(); // Assuming this is your beautified function
+                        // system("cls");
+                       
+                        shopOwnerMenu(); 
                         int shopChoice;
                         cin >> shopChoice;
                          
@@ -1041,6 +1044,7 @@ int main() {
                                          << " | Quantity: " << currentShop->quantities[i] << "\n";
                                 }
                                 cout << YELLOW << "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" << RESET;
+                                delay(2000);
                                 break;
                             }
                             case 4: {
