@@ -867,7 +867,6 @@ int main() {
           }        
             else if(option==2){
                 UnregisteredUser user = UnregisteredUser ::registerUser();
-                UnregisteredUser::writeUserToFile(user);
                 string userId = user.userId;
                 string password = user.password;
                  bool innerRunning2 = true;
