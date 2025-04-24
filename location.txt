@@ -13,6 +13,7 @@ Adabari Bharalumukh 3
 Bharalumukh FancyBazaar 1
 FancyBazaar Panbazar 2
 ZooRoad Ganeshguri 2
+Ganeshguri GuwahatiClub 3
 GuwahatiClub UzanBazaar 1
 UzanBazaar Kharghuli 3
 Kharghuli Narengi 4

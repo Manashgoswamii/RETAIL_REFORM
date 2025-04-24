@@ -26,7 +26,7 @@ using namespace std;
 
 void delay(int timeMs){
     for (int i = 0; i < 30; i++) {
-        Sleep(timeMs / 30); // Sleep takes time in milliseconds
+        Sleep(timeMs/30); // Sleep takes time in milliseconds
     }
 }    
 
@@ -38,9 +38,15 @@ void animatedPrint(const string& text, int delayMs=30) {
     }
 }
 
-
+string toLowerCase(const string& str) {
+    string result = str;
+    transform(result.begin(), result.end(), result.begin(), ::tolower);
+    return result;
+}
 // Function to find LCS length
 int lcs(string s1, string s2) {
+    s1 = toLowerCase(s1);
+    s2 = toLowerCase(s2);
     int m = s1.length(), n = s2.length();
     vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
 
@@ -75,12 +81,12 @@ string suggestProduct(string input, vector<string>& products) {
 
 
 class User {
+    protected:
+        string password;
     public:
-        string userId;
         string name;
         string contact;
-        string password;
-    
+        string userId;
         User(string id, string n, string c, string p) : userId(id), name(n), contact(c), password(p) {};
 
        
@@ -89,7 +95,7 @@ class User {
 
  class UnregisteredUser : public User {
     public:
-        UnregisteredUser(string id, string n, string c, string p) : User(id, n, c, p) {}
+        UnregisteredUser(string id, string n, string c, string p) : User(id, n, c, p) {};
     
         static UnregisteredUser registerUser() {
             string id, name, contact, password;
@@ -175,17 +181,33 @@ class User {
     };
 
 class Shop {
-    public:
+    private:
+       
+        string password; 
+    
+     public:
         string shopId;
         string name;
         string address;
-        string password;
         vector<string> items;
         vector<double> prices;
         vector<int>quantities;
+
         Shop() {};
         Shop(string id, string n, string a, string p) : shopId(id), name(n), address(a), password(p) {}
-    
+        
+        static Shop* loginShop(string id, string pass){
+            vector<Shop> shops = Shop::readShopsFromFile();
+            Shop* currentShop = nullptr;
+            for (auto& shop : shops) {
+                if (shop.shopId == id && shop.password == pass) {
+                    currentShop = &shop;
+                    break;
+                }
+            }
+            return currentShop;
+        }
+
         void addItem(string item, double price,int quantity) {
             items.push_back(item);
             prices.push_back(price);
@@ -491,7 +513,7 @@ class Booking {
         }
     
         static void searchAndBookProduct(string userId,const string& userLocation) {
-            animatedPrint(CYAN "\n🔍 Enter product name: " RESET);
+            animatedPrint(CYAN "\n  🔍 Enter product name: " RESET);
             string productName;
             cin.ignore();
             getline(cin, productName);
@@ -512,7 +534,7 @@ class Booking {
             for (const auto& shop : shops) {
                 for (size_t i = 0; i < shop.items.size(); i++) {
                     if (shop.items[i] == productName && shop.quantities[i] > 0) {
-                        int distance = shortestPaths.count(shop.address) ? shortestPaths[shop.address] : numeric_limits<int>::max();
+                        int distance = shortestPaths.count(shop.address) ? shortestPaths[shop.address] : 100;
                         validShops.push_back({shop, distance});
                         shopItemIndexMap[shop.shopId] = i;
                     }
@@ -609,7 +631,7 @@ class Booking {
                     products.push_back(shop.items[i]);
                 }
             }
-        
+                
             productName = suggestProduct(productName, products);
         
             unordered_map<string, int> shortestPaths = dijkstra(userLocation);
@@ -618,7 +640,7 @@ class Booking {
                 for (size_t i = 0; i < shop.items.size(); i++) {
                     if (shop.items[i] == productName && shop.quantities[i] > 0) {
                         int distance = shortestPaths.count(shop.address) ? shortestPaths[shop.address] : numeric_limits<int>::max();
-                        validShops.push_back({shop, distance});
+                      if(distance!= numeric_limits<int>::max())  validShops.push_back({shop, distance});
                     }
                 }
             }
@@ -655,8 +677,8 @@ class Booking {
     };
 
 void generateBookingReceipt(const Booking& booking, const RegisteredUser& user, const Shop& shop) {
-            std::string line = "========================================\n";
-            std::string dashed = "----------------------------------------\n";
+            string line = "========================================\n";
+            string dashed = "----------------------------------------\n";
         
             animatedPrint(YELLOW + line + RESET, 2);
             animatedPrint(GREEN "         🧾 BOOKING RECEIPT\n" RESET, 3);
@@ -665,10 +687,10 @@ void generateBookingReceipt(const Booking& booking, const RegisteredUser& user, 
             animatedPrint(CYAN "📌 Booking Details:\n" RESET, 4);
             animatedPrint(MAGENTA + dashed + RESET, 2);
         
-            std::cout << "👤 Customer      : " << BOLD << user.name << RESET << "  (ID: " << CYAN << user.userId << RESET << ")\n";
-            std::cout << "🏪 Shop          : " << BOLD << shop.name << RESET << "  (ID: " << CYAN << shop.shopId << RESET << ")\n";
-            std::cout << "📦 Item Purchased: " << GREEN << booking.item << RESET << "\n";
-            std::cout << "💲 Price         : " << YELLOW << "$" << std::fixed << std::setprecision(2) << booking.price << RESET << "\n";
+            cout << "👤 Customer      : " << BOLD << user.name << RESET << "  (ID: " << CYAN << user.userId << RESET << ")\n";
+            cout << "🏪 Shop          : " << BOLD << shop.name << RESET << "  (ID: " << CYAN << shop.shopId << RESET << ")\n";
+            cout << "📦 Item Purchased: " << GREEN << booking.item << RESET << "\n";
+            cout << "💲 Price         : " << YELLOW << "$" << std::fixed << std::setprecision(2) << booking.price << RESET << "\n";
         
             animatedPrint(MAGENTA + dashed + RESET, 2);
             animatedPrint(GREEN "🙏 Thank you for your purchase!\n" RESET, 4);
@@ -738,11 +760,7 @@ void shopOwnerMenu() {
 }
 
 
-string toLowerCase(const string& str) {
-    string result = str;
-    transform(result.begin(), result.end(), result.begin(), ::tolower);
-    return result;
-}
+
 // Function to display ASCII Art
 void showWelcomeScreen() {
     cout << GREEN << R"( 
@@ -868,7 +886,7 @@ int main() {
             else if(option==2){
                 UnregisteredUser user = UnregisteredUser ::registerUser();
                 string userId = user.userId;
-                string password = user.password;
+                // string password = user.password;
                  bool innerRunning2 = true;
                while(innerRunning2){
 
@@ -965,12 +983,15 @@ int main() {
                     cin >> password;
                     
                     Shop* currentShop = nullptr;
-                    for (auto& shop : shops) {
-                        if (shop.shopId == shopId && shop.password == password) {
-                            currentShop = &shop;
-                            break;
-                        }
-                    }
+                     
+                    currentShop  = Shop :: loginShop(shopId,password);
+
+                    // for (auto& shop : shops) {
+                    //     if (shop.shopId == shopId && shop.password == password) {
+                    //         currentShop = &shop;
+                    //         break;
+                    //     }
+                    // }
                     
                     if (!currentShop) {
                         cout << RED << "❌ Invalid credentials. Please try again.\n" << RESET;
