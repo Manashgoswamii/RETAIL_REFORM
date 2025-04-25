@@ -181,12 +181,11 @@ class User {
     };
 
 class Shop {
-    
-       
-       
+    private:
+       string password;
     
      public:
-        string password; 
+     
         string shopId;
         string name;
         string address;
@@ -197,17 +196,16 @@ class Shop {
         Shop() {};
         Shop(string id, string n, string a, string p) : shopId(id), name(n), address(a), password(p) {}
         
-        //  Shop* loginShop(string id, string pass){
-        //     vector<Shop> shops = Shop::readShopsFromFile();
-        //     Shop* currentShop = nullptr;
-        //     for (auto& shop : shops) {
-        //         if (shop.shopId == id && shop.password == pass) {
-        //             currentShop = &shop;
-        //             break;
-        //         }
-        //     }
-        //     return currentShop;
-        // }
+         static  bool loginShop(string id, string pass){
+            vector<Shop> shops = Shop::readShopsFromFile();
+           
+            for (auto& shop : shops) {
+                if (shop.shopId == id && shop.password == pass) {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         void addItem(string item, double price,int quantity) {
             items.push_back(item);
@@ -984,21 +982,16 @@ int main() {
                     cin >> password;
                     
                     Shop* currentShop = nullptr;
-                    // Shop shop1;
-                    // currentShop  = shop1.loginShop(shopId,password);
-                    // int pass = getPassWord()                     
-                    // for (auto& shop : shops) {
-                    //     if (shop.shopId == shopId && shop.password == password) {
-                    //         currentShop = &shop;
-                    //         break;
-                    //     }
-                    // }
+              
+                    bool isLogin=  Shop::loginShop(shopId,password);
+                   if(isLogin){
                     for (auto& shop : shops) {
-                        if (shop.shopId == shopId && shop.password == password) {
+                        if (shop.shopId == shopId ) {
                             currentShop = &shop;
                             break;
                         }
                     }
+                   }
                     
                     
                     if (!currentShop) {

@@ -1,4 +1,4 @@
-S001,GroceryMart,Panbazar,pass123,Rice,40,100,Oil,120,50
+S001,GroceryMart,Panbazar,pass123,Rice,40,100,Oil,120,50,Bread,60,20
 S002,DailyNeeds,PaltanBazaar,daily456,Sugar,45,80,Tea,200,30
 S003,FruitHouse,Ganeshguri,fruit789,Apple,150,60,Banana,50,100
 S004,FreshMart,Dispur,fresh321,Milk,60,90,Bread,35,120
